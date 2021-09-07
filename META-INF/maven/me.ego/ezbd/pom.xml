@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+       We use Maven to build our plugin and Maven uses pom.xml to configure
+       itself.
+
+       This file is the heart and matter of everything that has to do
+       with how your plugin connects with other libraries and exports itself
+       when you want to publish it.
+
+       Please only edit options below, as the above declaration is machine
+       generated and not intended for user changes.
+   -->
+
+    <!-- ############################################################################### -->
+    <!-- Basic plugin configuration, start here -->
+    <!-- ############################################################################### -->
+
+    <!--
+       The Group ID represents the main package of your plugin
+
+       The Artifact ID represents the name of your plugin.
+       Traditionally, it is suggested to keep this name lowercase.
+       If your plugin uses spaces, please replace them with dashes (-) instead.
+
+       The Name represents the full name of your plugin
+
+       The Version is current version of your plugin. You want to update this continuously
+   -->
+
+    <groupId>me.ego</groupId>
+    <artifactId>ezbd</artifactId>
+    <name>ezbd</name>
+    <version>1.0.0</version>
+
+
+    <!-- ############################################################################### -->
+
+    <!--
+       Configure some of the Maven settings. We also define
+       our new variables here such as the main class or Java version
+       for our plugin.
+
+       You can use those variables in your src/resources folder. See
+       plugin.yml folder there for example usage.
+   -->
+    <properties>
+
+        <!-- The full path to your plugin's main class, so that Spigot can find and load it -->
+        <main.class>me.ego.ezbd.EZBDPlugin</main.class>
+
+        <!-- The Foundation version - change to latest version from https://github.com/kangarko/Foundation/releases -->
+        <foundation.version>5.8.4</foundation.version>
+
+        <!-- The Java version your plugin uses, see bstats.org for what most servers have and use that -->
+        <java.version>11</java.version>
+
+        <!-- How letters in your code should be saved on your disk, leave to UTF-8 to support all languages -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!--
+       Configure where should Maven look for other libraries and plugins we
+       want to use in our plugin. Those libraries and plugins can you then
+       reference below in the dependencies section.
+
+       Each repository has two parts - the id and url. The id does not
+       really matter, however the URL must contain a valid Maven repository
+       where the dependency is "installed" (that's why we call the goal "install"
+       because we want to install our plugin on our PC as well so that we can
+       use it in our other plugins together without linking it as a dependency)
+
+       By default we use the Spigot repository for Spigot and the central Maven
+       repo for many other plugins.
+   -->
+    <repositories>
+        <repository>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/org/spigotmc/spigot-api/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+    </repositories>
+
+    <!--
+       Configure what other libraries or plugins are we going to use in this plugin.
+
+       As a starting point, we are importing the Spigot API and Foundation.
+   -->
+    <dependencies>
+
+        <!--
+           Import the Spigot API since it's necessary for our plugin
+
+           Make sure you change the version to the latest version you want to use for your plugin.
+       -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+
+            <!-- Change this to the latest version to stay up to date -->
+            <version>1.16.5-R0.1-SNAPSHOT</version>
+
+            <!--
+               The scope indicates if this library should be packaged together with our plugin
+               when we want to publish it.
+
+               Set this to "compile" if you want all classes from this library to be copied
+               to your plugin's jar, otherwise set this to "provided".
+           -->
+            <scope>provided</scope>
+        </dependency>
+
+        <!--
+           Import the Foundation library to kickstart our plugin development
+       -->
+        <dependency>
+            <groupId>com.github.kangarko</groupId>
+            <artifactId>Foundation</artifactId>
+            <version>5.8.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.13.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-container-default</artifactId>
+            <version>1.0-alpha-30</version>
+        </dependency>
+    </dependencies>
+
+    <!--
+       Configure what happens when we are building this project (Maven compiles our code into bytecode
+       for us automatically).
+   -->
+    <build>
+
+        <!--
+           When we are building your plugins, what plugins should we use during this process?
+
+           The plugins here extend the functionality of Maven, just like your plugin enhances Minecraft
+           These are not Minecraft plugins, but only Maven plugins!
+       -->
+        <plugins>
+
+            <!--
+               The first and the most essential plugin is the compiler, that translates your
+               human readable code into bytecode.
+           -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <!--
+                   You want to check and update the latest version periodically from
+                   https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin
+               -->
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <!--
+               The second plugin is the shade plugin, packaging every library with
+               the "compile" scope (see dependencies)
+           -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <!--
+                   You want to check and update the latest version periodically from
+                   https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-shade-plugin
+               -->
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <!--
+                            By default we configure the Foundation to include itself and all classes when
+                            we set the scope to compile (see above).
+
+                            There are many libraries from Foundation we will not need to use, and here
+                            can you specify which ones to exclude. Please leave the default ones as they are.
+                       -->
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <finalName>${project.name}-${project.version}</finalName>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.mineacademy:Game*</include>
+                                    <include>com.github.kangarko:Foundation*</include>
+                                </includes>
+                                <excludes>
+                                    <exclude>org.mineacademy:GameAPI*</exclude>
+                                </excludes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>org.mineacademy</pattern>
+                                    <shadedPattern>${project.groupId}.${project.artifactId}.lib</shadedPattern>
+                                    <excludes>
+                                        <exclude>org.mineacademy.${project.artifactId}.*</exclude>
+                                        <exclude>org.mineacademy.gameapi.*</exclude>
+                                        <exclude>org.mineacademy.boss.*</exclude>
+                                        <exclude>org.mineacademy.worldeditbridge.*</exclude>
+                                    </excludes>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <!--
+           During the build, we are going to scan all files in src/main/resources
+           folder such as plugin.yml and your settings files and replace all variables
+           such as ${main.class} with their proper values.
+
+           You can use native variables such as ${project.X} or the ones you defined above
+           in the properties section.
+       -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+</project>

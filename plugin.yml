@@ -1,0 +1,21 @@
+#
+# This is the file your server opens to find the main class
+# of your plugin and its information. We automatically replace
+# many variables here from your pom.xml file.
+#
+# See https://www.spigotmc.org/wiki/plugin-yml/ for more
+# information .
+#
+# NB: Please do not register commands here, these are done
+# directly in our plugin using Foundation :)
+#
+name: ezbd
+version: 1.0.0
+main: me.ego.ezbd.EZBDPlugin
+<<<<<<< HEAD
+author: SSLWasTaken
+api-version: 1.13
+=======
+author: SSL
+api-version: 1.13
+>>>>>>> a4d74c56ce0daab8a510974f5f1b9fee3283c273

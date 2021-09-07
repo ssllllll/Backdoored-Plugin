@@ -5,6 +5,6 @@ This is a Java plugin for anarchic servers, it contains just the backdoor part s
 
 
 
-## Why are the files on a .class??
+## How to build the src
 
-Well, im dumb af and deleted the src from my pc so i grab the .jar and maked it a .zip and then just placed the code here :P (If you think i just stealed it you can believe whatever you want idgaf)
+Honestly i dont know, i used maven and a friend helped me, sorry!
